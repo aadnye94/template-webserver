@@ -16,7 +16,7 @@ pipeline {
                 echo 'Deploying'
                 sh "pwd"
                 sh "ls"
-                sh sh "zip -r webapp.zip ."
+                sh "zip -r webapp.zip ."
                 sh "ls"
             }
         }
