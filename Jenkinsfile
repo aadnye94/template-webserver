@@ -3,26 +3,20 @@ pipeline {
     environment {
         SSH_CRED = credentials('webkey')
         def CONNECT = 'ssh -o StrictHostKeyChecking=no ubuntu@3.96.178.26'
-    } 
+    }
     stages {
         
         stage('Build') {
             steps {
-                echo 'packaging app'
-            }
-        }
-        
-        stage('Deploy') {
-            steps {
-                echo 'Deploying'
+                echo 'building app'
                 sh "pwd"
                 sh "ls"
                 sh "zip -r webapp.zip ."
                 sh "ls"
             }
         }
-
- stage('Deploy') {
+        
+        stage('Deploy') {
             steps {
                 echo 'Deploying app'
                 sshagent(['webkey']) {
@@ -35,14 +29,9 @@ pipeline {
             }
         }
 
-
         stage('Clean-Up') {
             steps {
                 echo 'Remove existing files'
-                sshagent(['web-server-key']) {
-                    sh '$CONNECT "sudo rm /home/ubuntu/webapp.zip"'
-                }
-                sh "rm webapp.zip"
             }
         }
     }
